@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\Slides\Widgets;
 
 use Elementor\Controls_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Repeater;
@@ -26,6 +26,10 @@ class Slides extends Base_Widget {
 		return 'eicon-slides';
 	}
 
+	public function get_categories() {
+		return [ 'pro-elements' ];
+	}
+
 	public function get_keywords() {
 		return [ 'slides', 'carousel', 'image', 'title', 'slider' ];
 	}
@@ -44,7 +48,7 @@ class Slides extends Base_Widget {
 		];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_slides',
 			[
@@ -301,6 +305,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Horizontal Position', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'elementor-pro' ),
@@ -339,6 +344,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Vertical Position', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'options' => [
 					'top' => [
 						'title' => __( 'Top', 'elementor-pro' ),
@@ -377,6 +383,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Text Align', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'elementor-pro' ),
@@ -545,7 +552,6 @@ class Slides extends Base_Widget {
 				'label' => __( 'Pause on Hover', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-				'render_type' => 'none',
 				'frontend_available' => true,
 				'condition' => [
 					'autoplay!' => '',
@@ -559,7 +565,6 @@ class Slides extends Base_Widget {
 				'label' => __( 'Pause on Interaction', 'elementor-pro' ),
 				'type' => Controls_Manager::SWITCHER,
 				'default' => 'yes',
-				'render_type' => 'none',
 				'frontend_available' => true,
 				'condition' => [
 					'autoplay!' => '',
@@ -579,7 +584,6 @@ class Slides extends Base_Widget {
 				'selectors' => [
 					'{{WRAPPER}} .swiper-slide' => 'transition-duration: calc({{VALUE}}ms*1.2)',
 				],
-				'render_type' => 'none',
 				'frontend_available' => true,
 			]
 		);
@@ -614,7 +618,6 @@ class Slides extends Base_Widget {
 				'label' => __( 'Transition Speed', 'elementor-pro' ) . ' (ms)',
 				'type' => Controls_Manager::NUMBER,
 				'default' => 500,
-				'render_type' => 'none',
 				'frontend_available' => true,
 			]
 		);
@@ -695,6 +698,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Horizontal Position', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'default' => 'center',
 				'options' => [
 					'left' => [
@@ -719,6 +723,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Vertical Position', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'default' => 'middle',
 				'options' => [
 					'top' => [
@@ -743,6 +748,7 @@ class Slides extends Base_Widget {
 			[
 				'label' => __( 'Text Align', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'elementor-pro' ),
@@ -815,9 +821,7 @@ class Slides extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'heading_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '{{WRAPPER}} .elementor-slide-heading',
 			]
 		);
@@ -865,9 +869,7 @@ class Slides extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'description_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_2,
 				'selector' => '{{WRAPPER}} .elementor-slide-description',
 			]
 		);
@@ -892,14 +894,23 @@ class Slides extends Base_Widget {
 			]
 		);
 
+		$this->add_control( 'button_color',
+			[
+				'label' => __( 'Text Color', 'elementor-pro' ),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .elementor-slide-button' => 'color: {{VALUE}}; border-color: {{VALUE}}',
+
+				],
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'button_typography',
 				'selector' => '{{WRAPPER}} .elementor-slide-button',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_ACCENT,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_4,
 			]
 		);
 
@@ -934,6 +945,7 @@ class Slides extends Base_Widget {
 				'selectors' => [
 					'{{WRAPPER}} .elementor-slide-button' => 'border-radius: {{SIZE}}{{UNIT}};',
 				],
+				'separator' => 'after',
 			]
 		);
 
@@ -1181,9 +1193,14 @@ class Slides extends Base_Widget {
 			$slide_attributes = '';
 			$slide_element = 'div';
 			$btn_element = 'div';
+			$slide_url = $slide['link']['url'];
 
-			if ( ! empty( $slide['link']['url'] ) ) {
-				$this->add_link_attributes( 'slide_link' . $slide_count, $slide['link'] );
+			if ( ! empty( $slide_url ) ) {
+				$this->add_render_attribute( 'slide_link' . $slide_count, 'href', $slide_url );
+
+				if ( $slide['link']['is_external'] ) {
+					$this->add_render_attribute( 'slide_link' . $slide_count, 'target', '_blank' );
+				}
 
 				if ( 'button' === $slide['link_click'] ) {
 					$btn_element = 'a';
@@ -1228,16 +1245,7 @@ class Slides extends Base_Widget {
 			$slide_count++;
 		}
 
-		$prev = 'left';
-		$next = 'right';
-		$direction = 'ltr';
-
-		if ( is_rtl() ) {
-			$prev = 'right';
-			$next = 'left';
-			$direction = 'rtl';
-		}
-
+		$direction = is_rtl() ? 'rtl' : 'ltr';
 		$show_dots = ( in_array( $settings['navigation'], [ 'dots', 'both' ] ) );
 		$show_arrows = ( in_array( $settings['navigation'], [ 'arrows', 'both' ] ) );
 
@@ -1254,11 +1262,11 @@ class Slides extends Base_Widget {
 					<?php endif; ?>
 					<?php if ( $show_arrows ) : ?>
 						<div class="elementor-swiper-button elementor-swiper-button-prev">
-							<i class="eicon-chevron-<?php echo $prev; ?>" aria-hidden="true"></i>
+							<i class="eicon-chevron-left" aria-hidden="true"></i>
 							<span class="elementor-screen-only"><?php _e( 'Previous', 'elementor-pro' ); ?></span>
 						</div>
 						<div class="elementor-swiper-button elementor-swiper-button-next">
-							<i class="eicon-chevron-<?php echo $next; ?>" aria-hidden="true"></i>
+							<i class="eicon-chevron-right" aria-hidden="true"></i>
 							<span class="elementor-screen-only"><?php _e( 'Next', 'elementor-pro' ); ?></span>
 						</div>
 					<?php endif; ?>
@@ -1268,20 +1276,10 @@ class Slides extends Base_Widget {
 		<?php
 	}
 
-	/**
-	 * Render Slides widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 2.9.0
-	 * @access protected
-	 */
-	protected function content_template() {
+	protected function _content_template() {
 		?>
 		<#
-			var direction        = elementorFrontend.config.is_rtl ? 'rtl' : 'ltr',
-				next             = elementorFrontend.config.is_rtl ? 'left' : 'right',
-				prev             = elementorFrontend.config.is_rtl ? 'right' : 'left',
+			var direction        = elementorCommon.config.isRTL ? 'rtl' : 'ltr',
 				navi             = settings.navigation,
 				showDots         = ( 'dots' === navi || 'both' === navi ),
 				showArrows       = ( 'arrows' === navi || 'both' === navi ),
@@ -1325,11 +1323,11 @@ class Slides extends Base_Widget {
 					<# } #>
 					<# if ( showArrows ) { #>
 						<div class="elementor-swiper-button elementor-swiper-button-prev">
-							<i class="eicon-chevron-{{ prev }}" aria-hidden="true"></i>
+							<i class="eicon-chevron-left" aria-hidden="true"></i>
 							<span class="elementor-screen-only"><?php _e( 'Previous', 'elementor-pro' ); ?></span>
 						</div>
 						<div class="elementor-swiper-button elementor-swiper-button-next">
-							<i class="eicon-chevron-{{ next }}" aria-hidden="true"></i>
+							<i class="eicon-chevron-right" aria-hidden="true"></i>
 							<span class="elementor-screen-only"><?php _e( 'Next', 'elementor-pro' ); ?></span>
 						</div>
 					<# } #>

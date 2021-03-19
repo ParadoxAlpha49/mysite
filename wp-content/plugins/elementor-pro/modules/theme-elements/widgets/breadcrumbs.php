@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\ThemeElements\Widgets;
 
 use Elementor\Controls_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,19 +34,14 @@ class Breadcrumbs extends Base {
 	private function is_breadcrumbs_enabled() {
 		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
-			// The check for option 'wpseo_internallinks' is a BC fix for old versions of Yoast (<7.0.0).
-			// In this version Yoast changed the DB key for the breadcrumbs options to 'wpseo_titles'.
 			$options = get_option( 'wpseo_internallinks' );
-			if ( empty( $options ) ) {
-				$options = get_option( 'wpseo_titles' );
-			}
 			$breadcrumbs_enabled = true === $options['breadcrumbs-enable'];
 		}
 
 		return $breadcrumbs_enabled;
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_breadcrumbs_content',
 			[
@@ -60,7 +55,7 @@ class Breadcrumbs extends Base {
 				[
 					'raw' => __( 'Breadcrumbs are disabled in the Yoast SEO', 'elementor-pro' ) . ' ' . sprintf( '<a href="%s" target="_blank">%s</a>', admin_url( 'admin.php?page=wpseo_titles#top#breadcrumbs' ), __( 'Breadcrumbs Panel', 'elementor-pro' ) ),
 					'type' => Controls_Manager::RAW_HTML,
-					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+					'content_classes' => 'elementor-panel-alert elementor-panel-alert-danger',
 				]
 			);
 		}
@@ -128,9 +123,7 @@ class Breadcrumbs extends Base {
 			[
 				'name' => 'typography',
 				'selector' => '{{WRAPPER}}',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_2,
 			]
 		);
 

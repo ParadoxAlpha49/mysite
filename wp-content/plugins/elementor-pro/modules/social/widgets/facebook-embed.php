@@ -2,14 +2,14 @@
 namespace ElementorPro\Modules\Social\Widgets;
 
 use Elementor\Controls_Manager;
-use ElementorPro\Base\Base_Widget;
+use Elementor\Widget_Base;
 use ElementorPro\Modules\Social\Classes\Facebook_SDK_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Facebook_Embed extends Base_Widget {
+class Facebook_Embed extends Widget_Base {
 
 	public function get_name() {
 		return 'facebook-embed';
@@ -31,7 +31,7 @@ class Facebook_Embed extends Base_Widget {
 		return [ 'facebook', 'social', 'embed', 'video', 'post', 'comment' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_content',
 			[
@@ -59,7 +59,7 @@ class Facebook_Embed extends Base_Widget {
 			'post_url',
 			[
 				'label' => __( 'URL', 'elementor-pro' ),
-				'default' => 'https://www.facebook.com/elemntor/posts/2624214124556197',
+				'default' => 'https://www.facebook.com/elemntor/posts/1823653464612271',
 				'dynamic' => [
 					'active' => true,
 				],

@@ -2,7 +2,6 @@
 namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Widget_Heading;
-use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Product_Title extends Widget_Heading {
-
-	use Base_Widget_Trait;
 
 	public function get_name() {
 		return 'woocommerce-product-title';
@@ -33,8 +30,8 @@ class Product_Title extends Widget_Heading {
 		return [ 'woocommerce', 'shop', 'store', 'title', 'heading', 'product' ];
 	}
 
-	protected function register_controls() {
-		parent::register_controls();
+	protected function _register_controls() {
+		parent::_register_controls();
 
 		$this->update_control(
 			'title',
@@ -65,19 +62,11 @@ class Product_Title extends Widget_Heading {
 		parent::render();
 	}
 
-	/**
-	 * Render Woocommerce Product Title output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 2.9.0
-	 * @access protected
-	 */
-	protected function content_template() {
+	protected function _content_template() {
 		?>
 		<# view.addRenderAttribute( 'title', 'class', [ 'product_title', 'entry-title' ] ); #>
 		<?php
-		parent::content_template();
+		parent::_content_template();
 	}
 
 	public function render_plain_content() {}

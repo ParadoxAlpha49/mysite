@@ -2,7 +2,6 @@
 namespace ElementorPro\Modules\ThemeBuilder\Widgets;
 
 use Elementor\Widget_Heading;
-use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Site_Title extends Widget_Heading {
-
-	use Base_Widget_Trait;
 
 	public function get_name() {
 		// `theme` prefix is to avoid conflicts with a dynamic-tag with same name.
@@ -34,8 +31,8 @@ class Site_Title extends Widget_Heading {
 		return [ 'site', 'title', 'name' ];
 	}
 
-	protected function register_controls() {
-		parent::register_controls();
+	protected function _register_controls() {
+		parent::_register_controls();
 
 		$this->update_control(
 			'title',

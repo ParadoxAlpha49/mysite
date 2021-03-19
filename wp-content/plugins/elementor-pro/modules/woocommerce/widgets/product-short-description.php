@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Product_Short_Description extends Base_Widget {
+class Product_Short_Description extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-product-short-description';
@@ -26,7 +26,7 @@ class Product_Short_Description extends Base_Widget {
 		return [ 'woocommerce', 'shop', 'store', 'text', 'description', 'product' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_product_description_style',

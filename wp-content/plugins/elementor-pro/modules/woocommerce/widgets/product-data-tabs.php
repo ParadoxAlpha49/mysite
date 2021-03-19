@@ -4,12 +4,13 @@ namespace ElementorPro\Modules\Woocommerce\Widgets;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
+use Elementor\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Product_Data_Tabs extends Base_Widget {
+class Product_Data_Tabs extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-product-data-tabs';
@@ -27,7 +28,7 @@ class Product_Data_Tabs extends Base_Widget {
 		return [ 'woocommerce', 'shop', 'store', 'data', 'product', 'tabs' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_product_tabs_style',

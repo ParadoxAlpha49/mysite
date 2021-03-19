@@ -2,7 +2,6 @@
 namespace ElementorPro\Modules\ThemeBuilder\Widgets;
 
 use Elementor\Widget_Image;
-use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Site_Logo extends Widget_Image {
-
-	use Base_Widget_Trait;
 
 	public function get_name() {
 		// `theme` prefix is to avoid conflicts with a dynamic-tag with same name.
@@ -34,8 +31,8 @@ class Site_Logo extends Widget_Image {
 		return [ 'site', 'logo', 'branding' ];
 	}
 
-	protected function register_controls() {
-		parent::register_controls();
+	protected function _register_controls() {
+		parent::_register_controls();
 
 		$this->update_control(
 			'image',
@@ -75,25 +72,10 @@ class Site_Logo extends Widget_Image {
 			]
 		);
 
-		$this->update_control(
-			'caption_source',
-			[
-				'options' => $this->get_caption_source_options(),
-			]
-		);
-
 		$this->remove_control( 'caption' );
 	}
 
 	protected function get_html_wrapper_class() {
 		return parent::get_html_wrapper_class() . ' elementor-widget-' . parent::get_name();
-	}
-
-	private function get_caption_source_options() {
-		$caption_source_options = $this->get_controls( 'caption_source' )['options'];
-
-		unset( $caption_source_options['custom'] );
-
-		return $caption_source_options;
 	}
 }

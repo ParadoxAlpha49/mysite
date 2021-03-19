@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Product_Rating extends Base_Widget {
+class Product_Rating extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-product-rating';
@@ -26,7 +26,7 @@ class Product_Rating extends Base_Widget {
 		return [ 'woocommerce', 'shop', 'store', 'rating', 'review', 'comments', 'stars', 'product' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_product_rating_style',

@@ -2,15 +2,14 @@
 namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Controls_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
-use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Product_Price extends Base_Widget {
+class Product_Price extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-product-price';
@@ -28,7 +27,7 @@ class Product_Price extends Base_Widget {
 		return [ 'woocommerce', 'shop', 'store', 'price', 'product', 'sale' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_price_style',
@@ -77,8 +76,9 @@ class Product_Price extends Base_Widget {
 			[
 				'label' => __( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
-				'global' => [
-					'default' => Global_Colors::COLOR_PRIMARY,
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_1,
 				],
 				'selectors' => [
 					'.woocommerce {{WRAPPER}} .price' => 'color: {{VALUE}}',
@@ -90,9 +90,7 @@ class Product_Price extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '.woocommerce {{WRAPPER}} .price',
 			]
 		);

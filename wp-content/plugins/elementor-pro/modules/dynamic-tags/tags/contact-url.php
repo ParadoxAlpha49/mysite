@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\DynamicTags\Tags;
 
 use Elementor\Controls_Manager;
-use ElementorPro\Modules\DynamicTags\Tags\Base\Tag;
+use Elementor\Core\DynamicTags\Tag;
 use ElementorPro\Modules\DynamicTags\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,7 +27,7 @@ class Contact_URL extends Tag {
 		return [ Module::URL_CATEGORY ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->add_control(
 			'link_type',
 			[
@@ -78,6 +78,7 @@ class Contact_URL extends Tag {
 			[
 				'label' => __( 'Message', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXTAREA,
+				'label_block' => 'true',
 				'condition' => [
 					'link_type' => 'email',
 				],

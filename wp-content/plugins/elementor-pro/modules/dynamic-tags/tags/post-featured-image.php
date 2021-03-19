@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\DynamicTags\Tags;
 
 use Elementor\Controls_Manager;
-use ElementorPro\Modules\DynamicTags\Tags\Base\Data_Tag;
+use Elementor\Core\DynamicTags\Data_Tag;
 use ElementorPro\Modules\DynamicTags\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -42,7 +42,7 @@ class Post_Featured_Image extends Data_Tag {
 		return $image_data;
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->add_control(
 			'fallback',
 			[

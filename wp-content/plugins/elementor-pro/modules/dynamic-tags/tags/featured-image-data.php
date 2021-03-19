@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\DynamicTags\Tags;
 
 use Elementor\Controls_Manager;
-use ElementorPro\Modules\DynamicTags\Tags\Base\Tag;
+use Elementor\Core\DynamicTags\Tag;
 use ElementorPro\Modules\DynamicTags\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -75,7 +75,7 @@ class Featured_Image_Data extends Tag {
 		echo wp_kses_post( $value );
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->add_control(
 			'attachment_data',

@@ -67,7 +67,7 @@ class Module extends Module_Base {
 	 * @param Widget_Base $widget
 	 */
 	public static function add_exclude_controls( $widget ) {
-		Plugin::elementor()->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function( __METHOD__, '2.5.0', 'class Group_Control_Query' );
+		// TODO: _deprecated_function( __METHOD__, '2.5.0', 'class Group_Control_Query' );
 
 		$widget->add_control(
 			'exclude',
@@ -347,7 +347,7 @@ class Module extends Module_Base {
 
 
 	private function get_titles_query_for_library_template( $data ) {
-		$query = $data['get_titles']['query'];
+		$query = $data['autocomplete']['query'];
 
 		$query['post_type'] = Source_Local::CPT;
 		$query['orderby'] = 'meta_value';
@@ -356,6 +356,7 @@ class Module extends Module_Base {
 		if ( empty( $query['posts_per_page'] ) ) {
 			$query['posts_per_page'] = -1;
 		}
+		$query['s'] = $data['q'];
 
 		return $query;
 	}
@@ -471,7 +472,7 @@ class Module extends Module_Base {
 
 					$results[] = [
 						'id' => $post->ID,
-						'text' => esc_html( $text ),
+						'text' => $text,
 					];
 				}
 				break;
@@ -501,8 +502,7 @@ class Module extends Module_Base {
 				}
 				break;
 			default:
-				$results = apply_filters_deprecated( 'elementor_pro/query_control/get_autocomplete/' . $data['filter_type'], $data, '3.0.0', 'elementor/query/get_autocomplete/' . $data['filter_type'] );
-				$results = apply_filters( 'elementor/query/get_autocomplete/' . $data['filter_type'], [], $data );
+				$results = apply_filters( 'elementor_pro/query_control/get_autocomplete/' . $data['filter_type'], [], $data );
 		}
 
 		return [
@@ -563,7 +563,7 @@ class Module extends Module_Base {
 				foreach ( $query->posts as $post ) {
 					$document = Plugin::elementor()->documents->get( $post->ID );
 					if ( $document ) {
-						$text = esc_html( $post->post_title ) . ' (' . $document->get_post_type_title() . ')';
+						$text = $post->post_title . ' (' . $document->get_post_type_title() . ')';
 						$results[] = [
 							'id' => $post->ID,
 							'text' => $text,
@@ -640,7 +640,7 @@ class Module extends Module_Base {
 				);
 
 				foreach ( $query->posts as $post ) {
-					$results[ $post->ID ] = esc_html( $post->post_title );
+					$results[ $post->ID ] = $post->post_title;
 				}
 				break;
 
@@ -662,8 +662,7 @@ class Module extends Module_Base {
 				}
 				break;
 			default:
-				$results = apply_filters_deprecated( 'elementor_pro/query_control/get_value_titles/' . $request['filter_type'], $request, '3.0.0', 'elementor/query/get_value_titles/' . $request['filter_type'] );
-				$results = apply_filters( 'elementor/query/get_value_titles/' . $request['filter_type'], [], $request );
+				$results = apply_filters( 'elementor_pro/query_control/get_value_titles/' . $request['filter_type'], [], $request );
 		}
 
 		return $results;
@@ -709,7 +708,7 @@ class Module extends Module_Base {
 				foreach ( $query->posts as $post ) {
 					$document = Plugin::elementor()->documents->get( $post->ID );
 					if ( $document ) {
-						$results[ $post->ID ] = esc_html( $post->post_title ) . ' (' . $document->get_post_type_title() . ')';
+						$results[ $post->ID ] = $post->post_title . ' (' . $document->get_post_type_title() . ')';
 					}
 				}
 				break;
@@ -769,7 +768,7 @@ class Module extends Module_Base {
 				break;
 		}
 
-		return esc_html( $text );
+		return $text;
 	}
 
 	/**
@@ -839,7 +838,7 @@ class Module extends Module_Base {
 		$test_term = $term;
 		$names = [];
 		while ( $test_term->parent > 0 ) {
-			$test_term = get_term( $test_term->parent );
+			$test_term = get_term_by( 'term_taxonomy_id', $test_term->parent );
 			if ( ! $test_term ) {
 				break;
 			}
@@ -901,7 +900,7 @@ class Module extends Module_Base {
 	 * @return array
 	 */
 	public function get_query_args( $control_id, $settings ) {
-		Plugin::elementor()->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function( __METHOD__, '2.5.0', 'class Elementor_Post_Query' );
+		// TODO: _deprecated_function( __METHOD__, '2.5.0', 'class Elementor_Post_Query' );
 
 		$controls_manager = Plugin::elementor()->controls_manager;
 

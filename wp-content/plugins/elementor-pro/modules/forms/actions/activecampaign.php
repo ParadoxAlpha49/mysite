@@ -4,15 +4,15 @@ namespace ElementorPro\Modules\Forms\Actions;
 use Elementor\Controls_Manager;
 use Elementor\Settings;
 use ElementorPro\Modules\Forms\Classes\Form_Record;
-use ElementorPro\Modules\Forms\Classes\Integration_Base;
+use ElementorPro\Modules\Forms\Controls\Fields_Map;
 use ElementorPro\Modules\Forms\Classes;
-use ElementorPro\Core\Utils;
+use ElementorPro\Classes\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-class Activecampaign extends Integration_Base {
+class Activecampaign extends Classes\Integration_Base {
 
 	const OPTION_NAME_API_KEY = 'pro_activecampaign_api_key';
 	const OPTION_NAME_API_URL = 'pro_activecampaign_api_url';
@@ -57,7 +57,7 @@ class Activecampaign extends Integration_Base {
 		$widget->add_control(
 			'activecampaign_api_credentials_source',
 			[
-				'label' => __( 'API Key', 'elementor-pro' ),
+				'label' => __( 'API Credentials', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
 				'label_block' => false,
 				'options' => [
@@ -71,7 +71,7 @@ class Activecampaign extends Integration_Base {
 		$widget->add_control(
 			'activecampaign_api_key',
 			[
-				'label' => __( 'Custom API Key', 'elementor-pro' ),
+				'label' => __( 'API Key', 'elementor-pro' ),
 				'type' => Controls_Manager::TEXT,
 				'description' => __( 'Use this field to set a custom API Key for the current form', 'elementor-pro' ),
 				'condition' => [
@@ -127,7 +127,27 @@ class Activecampaign extends Integration_Base {
 			]
 		);
 
-		$this->register_fields_map_control( $widget );
+		$widget->add_control(
+			'activecampaign_fields_map',
+			[
+				'label' => __( 'Field Mapping', 'elementor-pro' ),
+				'type' => Fields_Map::CONTROL_TYPE,
+				'separator' => 'before',
+				'fields' => [
+					[
+						'name' => 'remote_id',
+						'type' => Controls_Manager::HIDDEN,
+					],
+					[
+						'name' => 'local_id',
+						'type' => Controls_Manager::SELECT,
+					],
+				],
+				'condition' => [
+					'activecampaign_list!' => '',
+				],
+			]
+		);
 
 		$widget->add_control(
 			'activecampaign_tags',
@@ -315,13 +335,5 @@ class Activecampaign extends Integration_Base {
 			add_action( 'elementor/admin/after_create_settings/' . Settings::PAGE_ID, [ $this, 'register_admin_fields' ], 15 );
 		}
 		add_action( 'wp_ajax_' . self::OPTION_NAME_API_KEY . '_validate', [ $this, 'ajax_validate_api_token' ] );
-	}
-
-	protected function get_fields_map_control_options() {
-		return [
-			'condition' => [
-				'activecampaign_list!' => '',
-			],
-		];
 	}
 }

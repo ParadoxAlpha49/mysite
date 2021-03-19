@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Product_Stock extends Base_Widget {
+class Product_Stock extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-product-stock';
@@ -26,7 +26,7 @@ class Product_Stock extends Base_Widget {
 		return [ 'woocommerce', 'shop', 'store', 'stock', 'quantity', 'product' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_product_stock_style',

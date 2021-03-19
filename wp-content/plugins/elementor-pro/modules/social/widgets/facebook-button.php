@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\Social\Widgets;
 
 use Elementor\Controls_Manager;
-use ElementorPro\Base\Base_Widget;
+use Elementor\Widget_Base;
 use ElementorPro\Modules\Social\Classes\Facebook_SDK_Manager;
 use ElementorPro\Modules\Social\Module;
 use ElementorPro\Plugin;
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Facebook_Button extends Base_Widget {
+class Facebook_Button extends Widget_Base {
 
 	public function get_name() {
 		return 'facebook-button';
@@ -25,11 +25,15 @@ class Facebook_Button extends Base_Widget {
 		return 'eicon-facebook-like-box';
 	}
 
+	public function get_categories() {
+		return [ 'pro-elements' ];
+	}
+
 	public function get_keywords() {
 		return [ 'facebook', 'social', 'embed', 'button', 'like', 'share', 'recommend', 'follow' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_content',
 			[
@@ -48,6 +52,21 @@ class Facebook_Button extends Base_Widget {
 				'options' => [
 					'like' => __( 'Like', 'elementor-pro' ),
 					'recommend' => __( 'Recommend', 'elementor-pro' ),
+					/* TODO: remove on 2.3 */
+					'follow' => __( 'Follow', 'elementor-pro' ) . ' (' . __( 'Deprecated', 'elementor-pro' ) . ')',
+				],
+			]
+		);
+
+		/* TODO: remove on 2.3 */
+		$this->add_control(
+			'follow_description',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => __( 'The Follow button has been deprecated by Facebook and will no longer work.', 'elementor-pro' ),
+				'content_classes' => 'elementor-descriptor',
+				'condition' => [
+					'type' => 'follow',
 				],
 			]
 		);
@@ -168,6 +187,13 @@ class Facebook_Button extends Base_Widget {
 
 		// Validate URL
 		switch ( $settings['type'] ) {
+			/* TODO: remove on 2.3 */
+			case 'follow':
+				if ( Plugin::elementor()->editor->is_edit_mode() ) {
+					echo __( 'The Follow button has been deprecated by Facebook and will no longer work.', 'elementor-pro' );
+
+				}
+				return;
 			case 'like':
 			case 'recommend':
 				if ( Module::URL_TYPE_CUSTOM === $settings['url_type'] && ! filter_var( $settings['url'], FILTER_VALIDATE_URL ) ) {

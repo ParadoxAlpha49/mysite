@@ -2,6 +2,8 @@
 namespace ElementorPro\Modules\AssetsManager\AssetTypes\Icons;
 
 use ElementorPro\Modules\AssetsManager\Classes\Assets_Base;
+use ElementorPro\Modules\AssetsManager\AssetTypes\Icons_Manager;
+use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use Elementor\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +38,7 @@ class Font_Awesome_Pro extends  Assets_Base {
 			'prefix' => 'fa-',
 			'displayPrefix' => 'far',
 			'labelIcon' => 'fab fa-font-awesome-alt',
-			'ver' => '5.15.1-pro',
+			'ver' => '5.11.2-pro',
 			'fetchJson' => sprintf( $json_url, 'regular' ),
 			'native' => true,
 		];
@@ -48,7 +50,7 @@ class Font_Awesome_Pro extends  Assets_Base {
 			'prefix' => 'fa-',
 			'displayPrefix' => 'fas',
 			'labelIcon' => 'fab fa-font-awesome',
-			'ver' => '5.15.1-pro',
+			'ver' => '5.11.2-pro',
 			'fetchJson' => sprintf( $json_url, 'solid' ),
 			'native' => true,
 		];
@@ -60,7 +62,7 @@ class Font_Awesome_Pro extends  Assets_Base {
 			'prefix' => 'fa-',
 			'displayPrefix' => 'fab',
 			'labelIcon' => 'fab fa-font-awesome-flag',
-			'ver' => '5.15.1-pro',
+			'ver' => '5.11.2-pro',
 			'fetchJson' => sprintf( $json_url, 'brands' ),
 			'native' => true,
 		];
@@ -72,7 +74,7 @@ class Font_Awesome_Pro extends  Assets_Base {
 			'prefix' => 'fa-',
 			'displayPrefix' => 'fal',
 			'labelIcon' => 'fal fa-flag',
-			'ver' => '5.15.1-pro',
+			'ver' => '5.11.2-pro',
 			'fetchJson' => sprintf( $json_url, 'light' ),
 			'native' => true,
 		];
@@ -84,7 +86,7 @@ class Font_Awesome_Pro extends  Assets_Base {
 			'prefix' => 'fa-',
 			'displayPrefix' => 'fad',
 			'labelIcon' => 'fad fa-flag',
-			'ver' => '5.15.1-pro',
+			'ver' => '5.11.2-pro',
 			'fetchJson' => sprintf( $json_url, 'duotone' ),
 			'native' => true,
 		];

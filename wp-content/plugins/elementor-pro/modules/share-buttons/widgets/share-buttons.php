@@ -68,7 +68,11 @@ class Share_Buttons extends Base_Widget {
 		return [ 'sharing', 'social', 'icon', 'button', 'like' ];
 	}
 
-	protected function register_controls() {
+	public function get_script_depends() {
+		return [ 'social-share' ];
+	}
+
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_buttons_content',
 			[
@@ -129,6 +133,7 @@ class Share_Buttons extends Base_Widget {
 			[
 				'label' => __( 'View', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
+				'label_block' => false,
 				'options' => [
 					'icon-text' => 'Icon & Text',
 					'icon' => 'Icon',
@@ -229,18 +234,9 @@ class Share_Buttons extends Base_Widget {
 						'icon' => 'eicon-text-align-justify',
 					],
 				],
-				/* TODO: `prefix_class` is redundant since v3.1.0
-				 * It is only here for backwards compatibility reasons.
-				 * It should be removed in the future.
-				 */
 				'prefix_class' => 'elementor-share-buttons%s--align-',
-				/*---------------------------------------------------*/
 				'condition' => [
 					'columns' => '0',
-				],
-				/* `selectors` was added on v3.1.0 as a superior alternative to the previous `prefix_class` solution */
-				'selectors' => [
-					'{{WRAPPER}}' => '--alignment: {{VALUE}}',
 				],
 			]
 		);
@@ -264,7 +260,7 @@ class Share_Buttons extends Base_Widget {
 			[
 				'label' => __( 'Link', 'elementor-pro' ),
 				'type' => Controls_Manager::URL,
-				'options' => false,
+				'show_external' => false,
 				'placeholder' => __( 'https://your-link.com', 'elementor-pro' ),
 				'condition' => [
 					'share_url_type' => 'custom',
@@ -293,9 +289,13 @@ class Share_Buttons extends Base_Widget {
 					'size' => 10,
 				],
 				'selectors' => [
-					'{{WRAPPER}}' => '--grid-side-margin: {{SIZE}}{{UNIT}}; --grid-column-gap: {{SIZE}}{{UNIT}}; --grid-row-gap: {{SIZE}}{{UNIT}}',
-					'(tablet) {{WRAPPER}}' => '--grid-side-margin: {{SIZE}}{{UNIT}}; --grid-column-gap: {{SIZE}}{{UNIT}}',
-					'(mobile) {{WRAPPER}}' => '--grid-side-margin: {{SIZE}}{{UNIT}}; --grid-column-gap: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}:not(.elementor-grid-0) .elementor-grid' => 'grid-column-gap: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}.elementor-grid-0 .elementor-share-btn' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
+					'(tablet) {{WRAPPER}}.elementor-grid-tablet-0 .elementor-share-btn' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
+					'(mobile) {{WRAPPER}}.elementor-grid-mobile-0 .elementor-share-btn' => 'margin-right: calc({{SIZE}}{{UNIT}} / 2); margin-left: calc({{SIZE}}{{UNIT}} / 2)',
+					'{{WRAPPER}}.elementor-grid-0 .elementor-grid' => 'margin-right: calc(-{{SIZE}}{{UNIT}} / 2); margin-left: calc(-{{SIZE}}{{UNIT}} / 2)',
+					'(tablet) {{WRAPPER}}.elementor-grid-tablet-0 .elementor-grid' => 'margin-right: calc(-{{SIZE}}{{UNIT}} / 2); margin-left: calc(-{{SIZE}}{{UNIT}} / 2)',
+					'(mobile) {{WRAPPER}}.elementor-grid-mobile-0 .elementor-grid' => 'margin-right: calc(-{{SIZE}}{{UNIT}} / 2); margin-left: calc(-{{SIZE}}{{UNIT}} / 2)',
 				],
 			]
 		);
@@ -309,9 +309,10 @@ class Share_Buttons extends Base_Widget {
 					'size' => 10,
 				],
 				'selectors' => [
-					'{{WRAPPER}}' => '--grid-row-gap: {{SIZE}}{{UNIT}}; --grid-bottom-margin: {{SIZE}}{{UNIT}}',
-					'(tablet) {{WRAPPER}}' => '--grid-row-gap: {{SIZE}}{{UNIT}}; --grid-bottom-margin: {{SIZE}}{{UNIT}}',
-					'(mobile) {{WRAPPER}}' => '--grid-row-gap: {{SIZE}}{{UNIT}}; --grid-bottom-margin: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}:not(.elementor-grid-0) .elementor-grid' => 'grid-row-gap: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}}.elementor-grid-0 .elementor-share-btn' => 'margin-bottom: {{SIZE}}{{UNIT}}',
+					'(tablet) {{WRAPPER}}.elementor-grid-tablet-0 .elementor-share-btn' => 'margin-bottom: {{SIZE}}{{UNIT}}',
+					'(mobile) {{WRAPPER}}.elementor-grid-mobile-0 .elementor-share-btn' => 'margin-bottom: {{SIZE}}{{UNIT}}',
 				],
 			]
 		);
@@ -434,6 +435,7 @@ class Share_Buttons extends Base_Widget {
 			[
 				'label' => __( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::SELECT,
+				'label_block' => false,
 				'options' => [
 					'official' => __( 'Official', 'elementor-pro' ),
 					'custom' => __( 'Custom', 'elementor-pro' ),
@@ -484,17 +486,14 @@ class Share_Buttons extends Base_Widget {
 				'label' => __( 'Secondary Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn__icon,
-					 {{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn__text,
+					'{{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn__icon, 
+					 {{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn__text, 
 					 {{WRAPPER}}.elementor-share-buttons--skin-gradient .elementor-share-btn__icon,
 					 {{WRAPPER}}.elementor-share-buttons--skin-gradient .elementor-share-btn__text,
 					 {{WRAPPER}}.elementor-share-buttons--skin-boxed .elementor-share-btn__icon,
 					 {{WRAPPER}}.elementor-share-buttons--skin-minimal .elementor-share-btn__icon' => 'color: {{VALUE}}',
 				],
 				'separator' => 'after',
-				'condition' => [
-					'skin!' => 'framed',
-				],
 			]
 		);
 
@@ -518,7 +517,7 @@ class Share_Buttons extends Base_Widget {
 					'{{WRAPPER}}.elementor-share-buttons--skin-framed .elementor-share-btn:hover,
 					 {{WRAPPER}}.elementor-share-buttons--skin-minimal .elementor-share-btn:hover,
 					 {{WRAPPER}}.elementor-share-buttons--skin-boxed .elementor-share-btn:hover' => 'color: {{VALUE}}; border-color: {{VALUE}}',
-					'{{WRAPPER}}.elementor-share-buttons--skin-boxed .elementor-share-btn:hover .elementor-share-btn__icon,
+					'{{WRAPPER}}.elementor-share-buttons--skin-boxed .elementor-share-btn:hover .elementor-share-btn__icon, 
 					 {{WRAPPER}}.elementor-share-buttons--skin-minimal .elementor-share-btn:hover .elementor-share-btn__icon' => 'background-color: {{VALUE}}',
 				],
 			]
@@ -530,8 +529,8 @@ class Share_Buttons extends Base_Widget {
 				'label' => __( 'Secondary Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn:hover .elementor-share-btn__icon,
-					 {{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn:hover .elementor-share-btn__text,
+					'{{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn:hover .elementor-share-btn__icon, 
+					 {{WRAPPER}}.elementor-share-buttons--skin-flat .elementor-share-btn:hover .elementor-share-btn__text, 
 					 {{WRAPPER}}.elementor-share-buttons--skin-gradient .elementor-share-btn:hover .elementor-share-btn__icon,
 					 {{WRAPPER}}.elementor-share-buttons--skin-gradient .elementor-share-btn:hover .elementor-share-btn__text,
 					 {{WRAPPER}}.elementor-share-buttons--skin-boxed .elementor-share-btn:hover .elementor-share-btn__icon,
@@ -587,39 +586,31 @@ class Share_Buttons extends Base_Widget {
 		?>
 		<div class="elementor-grid">
 			<?php
-			$networks_data = Module::get_networks();
-
 			foreach ( $settings['share_buttons'] as $button ) {
 				$network_name = $button['button'];
 
-				// A deprecated network.
-				if ( ! isset( $networks_data[ $network_name ] ) ) {
-					continue;
-				}
-
 				$social_network_class = ' elementor-share-btn_' . $network_name;
+
 				?>
-					<div class="elementor-grid-item">
-						<div class="<?php echo esc_attr( $button_classes . $social_network_class ); ?>">
-							<?php if ( 'icon' === $settings['view'] || 'icon-text' === $settings['view'] ) : ?>
-								<span class="elementor-share-btn__icon">
-								<i class="<?php echo self::get_network_class( $network_name ); ?>"
-								   aria-hidden="true"></i>
-								<span
-									class="elementor-screen-only"><?php echo sprintf( __( 'Share on %s', 'elementor-pro' ), $network_name ); ?></span>
+				<div class="elementor-grid-item">
+					<div class="<?php echo esc_attr( $button_classes . $social_network_class ); ?>">
+						<?php if ( 'icon' === $settings['view'] || 'icon-text' === $settings['view'] ) : ?>
+							<span class="elementor-share-btn__icon">
+								<i class="<?php echo self::get_network_class( $network_name ); ?>" aria-hidden="true"></i>
+								<span class="elementor-screen-only"><?php echo sprintf( __( 'Share on %s', 'elementor-pro' ), $network_name ); ?></span>
 							</span>
-							<?php endif; ?>
-							<?php if ( $show_text ) : ?>
-								<div class="elementor-share-btn__text">
-									<?php if ( 'yes' === $settings['show_label'] || 'text' === $settings['view'] ) : ?>
-										<span class="elementor-share-btn__title">
-										<?php echo $button['text'] ? $button['text'] : $networks_data[ $network_name ]['title']; ?>
+						<?php endif; ?>
+						<?php if ( $show_text ) : ?>
+							<div class="elementor-share-btn__text">
+								<?php if ( 'yes' === $settings['show_label'] || 'text' === $settings['view'] ) : ?>
+									<span class="elementor-share-btn__title">
+										<?php echo $button['text'] ? $button['text'] : Module::get_networks( $network_name )['title']; ?>
 									</span>
-									<?php endif; ?>
-								</div>
-							<?php endif; ?>
-						</div>
+								<?php endif; ?>
+							</div>
+						<?php endif; ?>
 					</div>
+				</div>
 				<?php
 			}
 			?>
@@ -627,15 +618,7 @@ class Share_Buttons extends Base_Widget {
 		<?php
 	}
 
-	/**
-	 * Render Share Buttons widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 2.9.0
-	 * @access protected
-	 */
-	protected function content_template() {
+	protected function _content_template() {
 		?>
 		<#
 			var shareButtonsEditorModule = elementorPro.modules.shareButtons,
@@ -646,11 +629,6 @@ class Share_Buttons extends Base_Widget {
 		<div class="elementor-grid">
 			<#
 				_.each( settings.share_buttons, function( button ) {
-					// A deprecated network.
-					if ( ! shareButtonsEditorModule.getNetworkData( button ) ) {
-						return;
-					}
-
 					var networkName = button.button,
 						socialNetworkClass = 'elementor-share-btn_' + networkName;
 					#>

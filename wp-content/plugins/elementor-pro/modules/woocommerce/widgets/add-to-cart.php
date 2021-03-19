@@ -3,7 +3,6 @@ namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Button;
-use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Modules\QueryControl\Module;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -11,8 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Add_To_Cart extends Widget_Button {
-
-	use Base_Widget_Trait;
 
 	public function get_name() {
 		return 'wc-add-to-cart';
@@ -44,7 +41,7 @@ class Add_To_Cart extends Widget_Button {
 		return $text;
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'section_product',
 			[
@@ -93,7 +90,7 @@ class Add_To_Cart extends Widget_Button {
 
 		$this->end_controls_section();
 
-		parent::register_controls();
+		parent::_register_controls();
 
 		$this->update_control(
 			'link',
@@ -220,12 +217,6 @@ class Add_To_Cart extends Widget_Button {
 		remove_filter( 'esc_html', [ $this, 'unescape_html' ] );
 	}
 
-	/**
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 2.9.0
-	 * @access protected
-	 */
 	// Force remote render
-	protected function content_template() {}
+	protected function _content_template() {}
 }

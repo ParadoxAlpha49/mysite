@@ -2,8 +2,7 @@
 namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Controls_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
-use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Typography;
 use ElementorPro\Plugin;
 
@@ -36,10 +35,10 @@ class Archive_Products_Deprecated extends Products {
 		return false;
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->deprecated_notice( Plugin::get_title(), '2.5.0', '', __( 'Archive Products', 'elementor-pro' ) );
 
-		parent::register_controls();
+		parent::_register_controls();
 
 		$this->start_injection( [
 			'at' => 'before',
@@ -51,7 +50,7 @@ class Archive_Products_Deprecated extends Products {
 			[
 				'type' => Controls_Manager::RAW_HTML,
 				'raw' => __( 'Note that these layout settings will override settings made in Appearance > Customize', 'elementor-pro' ),
-				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-warning',
 			]
 		);
 
@@ -122,8 +121,9 @@ class Archive_Products_Deprecated extends Products {
 			[
 				'label' => __( 'Color', 'elementor-pro' ),
 				'type' => Controls_Manager::COLOR,
-				'global' => [
-					'default' => Global_Colors::COLOR_TEXT,
+				'scheme' => [
+					'type' => Schemes\Color::get_type(),
+					'value' => Schemes\Color::COLOR_3,
 				],
 				'selectors' => [
 					'{{WRAPPER}} .elementor-products-nothing-found' => 'color: {{VALUE}};',
@@ -135,9 +135,7 @@ class Archive_Products_Deprecated extends Products {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'nothing_found_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_TEXT,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_3,
 				'selector' => '{{WRAPPER}} .elementor-products-nothing-found',
 			]
 		);

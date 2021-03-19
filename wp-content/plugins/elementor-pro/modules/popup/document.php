@@ -30,8 +30,6 @@ class Document extends Theme_Section_Document {
 
 		$properties['admin_tab_group'] = 'popup';
 		$properties['location'] = 'popup';
-		$properties['support_kit'] = true;
-		$properties['support_site_editor'] = false;
 
 		return $properties;
 	}
@@ -68,8 +66,8 @@ class Document extends Theme_Section_Document {
 		return $this->display_settings;
 	}
 
-	public function get_initial_config() {
-		$config = parent::get_initial_config();
+	public function _get_initial_config() {
+		$config = parent::_get_initial_config();
 
 		$display_settings = $this->get_display_settings();
 
@@ -123,7 +121,7 @@ class Document extends Theme_Section_Document {
 		return $settings;
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 		$this->start_controls_section(
 			'popup_layout',
 			[
@@ -243,6 +241,7 @@ class Document extends Theme_Section_Document {
 			[
 				'label' => __( 'Horizontal', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'toggle' => false,
 				'default' => 'center',
 				'options' => [
@@ -274,6 +273,7 @@ class Document extends Theme_Section_Document {
 			[
 				'label' => __( 'Vertical', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'toggle' => false,
 				'default' => 'center',
 				'options' => [
@@ -382,12 +382,13 @@ class Document extends Theme_Section_Document {
 						],
 					],
 				],
+				'frontend_available' => true,
 			]
 		);
 
 		$this->end_controls_section();
 
-		parent::register_controls();
+		parent::_register_controls();
 
 		$this->start_controls_section(
 			'section_page_style',
@@ -774,8 +775,8 @@ class Document extends Theme_Section_Document {
 
 	protected function get_remote_library_config() {
 		$config = parent::get_remote_library_config();
+
 		$config['type'] = 'popup';
-		$config['default_route'] = 'templates/popups';
 		$config['autoImportSettings'] = true;
 
 		return $config;

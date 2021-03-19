@@ -2,7 +2,7 @@
 namespace ElementorPro\Modules\Woocommerce\Widgets;
 
 use Elementor\Controls_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
+use Elementor\Core\Schemes;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
 use ElementorPro\Modules\Woocommerce\Module;
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-class Menu_Cart extends Base_Widget {
+class Menu_Cart extends Widget_Base {
 
 	public function get_name() {
 		return 'woocommerce-menu-cart';
@@ -29,7 +29,7 @@ class Menu_Cart extends Base_Widget {
 		return [ 'theme-elements', 'woocommerce-elements' ];
 	}
 
-	protected function register_controls() {
+	protected function _register_controls() {
 
 		$this->start_controls_section(
 			'section_menu_icon_content',
@@ -107,6 +107,7 @@ class Menu_Cart extends Base_Widget {
 			[
 				'label' => __( 'Alignment', 'elementor-pro' ),
 				'type' => Controls_Manager::CHOOSE,
+				'label_block' => false,
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'elementor-pro' ),
@@ -278,9 +279,7 @@ class Menu_Cart extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'toggle_button_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '{{WRAPPER}} .elementor-menu-cart__toggle .elementor-button',
 				'separator' => 'before',
 			]
@@ -507,9 +506,7 @@ class Menu_Cart extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'product_title_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '{{WRAPPER}} .elementor-menu-cart__product-name, {{WRAPPER}} .elementor-menu-cart__product-name a',
 			]
 		);
@@ -539,9 +536,7 @@ class Menu_Cart extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'product_price_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '{{WRAPPER}} .elementor-menu-cart__product-price',
 			]
 		);
@@ -665,9 +660,7 @@ class Menu_Cart extends Base_Widget {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'product_buttons_typography',
-				'global' => [
-					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
-				],
+				'scheme' => Schemes\Typography::TYPOGRAPHY_1,
 				'selector' => '{{WRAPPER}} .elementor-menu-cart__footer-buttons .elementor-button',
 				'separator' => 'before',
 			]

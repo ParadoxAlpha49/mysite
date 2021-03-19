@@ -106,16 +106,7 @@ class Admin extends App {
 					break;
 				}
 
-				$lowercase_version = strtolower( $version );
-				$is_valid_rollback_version = ! preg_match( '/(trunk|beta|rc|dev)/i', $lowercase_version );
-
-				$is_valid_rollback_version = apply_filters(
-					'elementor-pro/settings/tools/rollback/is_valid_rollback_version',
-					$is_valid_rollback_version,
-					$lowercase_version
-				);
-
-				if ( ! $is_valid_rollback_version ) {
+				if ( preg_match( '/(trunk|beta|rc)/i', strtolower( $version ) ) ) {
 					continue;
 				}
 
@@ -154,7 +145,7 @@ class Admin extends App {
 				'field_args' => [
 					'type' => 'raw_html',
 					'html' => sprintf(
-						$rollback_html . '<a data-placeholder-text="' . __( 'Reinstall', 'elementor-pro' ) . ' v{VERSION}" href="#" data-placeholder-url="%s" class="button elementor-button-spinner elementor-rollback-button">%s</a>',
+						$rollback_html . '<a data-placeholder-text="' . __( 'Reinstall v{VERSION}', 'elementor-pro' ) . '" href="#" data-placeholder-url="%s" class="button elementor-button-spinner elementor-rollback-button">%s</a>',
 						wp_nonce_url( admin_url( 'admin-post.php?action=elementor_pro_rollback&version=VERSION' ), 'elementor_pro_rollback' ),
 						__( 'Reinstall', 'elementor-pro' )
 					),

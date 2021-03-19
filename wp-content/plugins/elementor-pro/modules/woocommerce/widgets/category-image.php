@@ -2,7 +2,6 @@
 namespace ElementorPro\Modules\ThemeBuilder\Widgets;
 
 use Elementor\Widget_Image;
-use ElementorPro\Base\Base_Widget_Trait;
 use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Category_Image extends Widget_Image {
-
-	use Base_Widget_Trait;
 
 	public function get_name() {
 		return 'woocommerce-category-image';
@@ -33,8 +30,8 @@ class Category_Image extends Widget_Image {
 		return [ 'woocommerce', 'category', 'image', 'thumbnail' ];
 	}
 
-	protected function register_controls() {
-		parent::register_controls();
+	protected function _register_controls() {
+		parent::_register_controls();
 
 		$this->update_control(
 			'image',
